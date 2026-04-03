@@ -477,127 +477,126 @@
                     </template>
                   </template>
                 </a-table>
-                <a-modal
-                  v-model:open="FinalizedSlotModalVisable"
-                  :title="slotItem.name + ' 完整性检验'"
-                  :style="{ width: '1000px' }"
-                  :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0.1)', boxShadow: 'none' }"
-                  centered
-                  @ok="FinalizedSlotModalVisable = false"
-                >
-                  <template #footer>
-                    <a-button key="back" @click="FinalizedSlotModalVisable = false">返回</a-button>
-                  </template>
-                  <a-list bordered size="large">
-                    <a-list-item>
-                      <span
-                        ><strong>单元哈希:</strong> <a-tag color="pink">{{ slotItem.slotHash }}</a-tag></span
-                      >
-                    </a-list-item>
-                    <a-list-item>
-                      <span
-                        ><strong>任务默克尔根:</strong> <a-tag color="orange">{{ slotItem.merkle_root }}</a-tag></span
-                      >
-                    </a-list-item>
-                    <a-list-item>
-                      <span
-                        ><strong>承诺检验默克尔根:</strong> <a-tag color="green">{{ slotItem.merkle_root }}</a-tag></span
-                      >
-                      <span
-                        ><strong>校验结果:</strong> <a-tag color="green">{{ slotItem.veritfy }}</a-tag></span
-                      >
-                    </a-list-item>
-                  </a-list>
-                  <div id="proof" style="width: 1000px; height: 600px"></div>
-                </a-modal>
-                <a-modal
-                  v-model:open="ZKModalVisible"
-                  :title="slotItem.name + ' ZKML证明展示'"
-                  :width="{ width: '800px' }"
-                  :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0.1)', boxShadow: 'none' }"
-                  centered
-                  @ok="ZKModalVisible = false"
-                >
-                  <template #footer>
-                    <a-button key="verify" type="primary" @click="verifyZKProof">验证</a-button>
-                    <a-button key="close" @click="ZKModalVisible = false">关闭</a-button>
-                  </template>
-                  <a-card>
-                    <pre style="max-height: 500px; overflow-y: auto; white-space: pre-wrap;">
-                      {{ JSON.stringify(zkProof, null, 2) }}
-                    </pre>
-                  </a-card>
-                </a-modal>
-
-                <a-modal
-                  v-model:open="KeyVerificationModalVisible"
-                  :title="'提交单元 ' + keyVerificationData.slotHash + ' 合成证书'"
-                  :width="800"
-                  :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0.1)', boxShadow: 'none' }"
-                  centered
-                  @ok="KeyVerificationModalVisible = false"
-                >
-                  <template #footer>
-                    <a-button key="close" @click="KeyVerificationModalVisible = false">关闭</a-button>
-                  </template>
-                  <a-list bordered size="large">
-                    <a-list-item>
-                      <a-row gutter="{16}" style="width: 100%">
-                        <a-col :span="24">
-                          <strong>提交单元: </strong>
-                          <a-tag color="purple" class="break-tag">{{ keyVerificationData.slotHash }}</a-tag>
-                        </a-col>
-                      </a-row>
-                    </a-list-item>
-                    <a-list-item>
-                      <a-row gutter="{16}" style="width: 100%">
-                        <a-col :span="24">
-                          <strong>节点ID: </strong>
-                          <a-tag color="orange">{{ keyVerificationData.nodeID }}</a-tag>
-                        </a-col>
-                      </a-row>
-                    </a-list-item>
-                    <a-list-item>
-                      <a-row gutter="{16}" style="width: 100%">
-                        <a-col :span="24">
-                          <strong>数据哈希: </strong>
-                          <a-tag color="cyan" class="break-tag">{{ keyVerificationData.dataHash }}</a-tag>
-                        </a-col>
-                      </a-row>
-                    </a-list-item>
-                    <a-list-item>
-                      <a-row gutter="{16}" style="width: 100%">
-                        <a-col :span="24">
-                          <strong>节点公钥: </strong>
-                          <a-tag color="blue" class="break-tag">{{ keyVerificationData.publicKey }}</a-tag>
-                        </a-col>
-                      </a-row>
-                    </a-list-item>
-                    <a-list-item>
-                      <a-row gutter="{16}" style="width: 100%">
-                        <a-col :span="24">
-                          <strong>节点签名: </strong>
-                          <a-tag color="green" class="break-tag">{{ keyVerificationData.signature }}</a-tag>
-                        </a-col>
-                      </a-row>
-                    </a-list-item>
-                    <a-list-item>
-                      <a-row gutter="{16}" style="width: 100%">
-                        <a-col :span="24">
-                          <strong>CA证书: </strong>
-                          <a-textarea
-                          :value="keyVerificationData.ca"
-                          readonly
-                          :rows="4"
-                        />
-                        </a-col>
-                      </a-row>
-                    </a-list-item>
-                  </a-list>
-                </a-modal>
-
               </a-collapse-panel>
             </a-collapse>
+            <a-modal
+              v-model:open="FinalizedSlotModalVisable"
+              :title="slotItem.name + ' 完整性检验'"
+              :style="{ width: '1000px' }"
+              :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0.1)', boxShadow: 'none' }"
+              centered
+              @ok="FinalizedSlotModalVisable = false"
+            >
+              <template #footer>
+                <a-button key="back" @click="FinalizedSlotModalVisable = false">返回</a-button>
+              </template>
+              <a-list bordered size="large">
+                <a-list-item>
+                  <span
+                    ><strong>单元哈希:</strong> <a-tag color="pink">{{ slotItem.slotHash }}</a-tag></span
+                  >
+                </a-list-item>
+                <a-list-item>
+                  <span
+                    ><strong>任务默克尔根:</strong> <a-tag color="orange">{{ slotItem.merkle_root }}</a-tag></span
+                  >
+                </a-list-item>
+                <a-list-item>
+                  <span
+                    ><strong>承诺检验默克尔根:</strong> <a-tag color="green">{{ slotItem.merkle_root }}</a-tag></span
+                  >
+                  <span
+                    ><strong>校验结果:</strong> <a-tag color="green">{{ slotItem.veritfy }}</a-tag></span
+                  >
+                </a-list-item>
+              </a-list>
+              <div ref="proofChartRef" style="width: 1000px; height: 600px"></div>
+            </a-modal>
+            <a-modal
+              v-model:open="ZKModalVisible"
+              :title="slotItem.name + ' ZKML证明展示'"
+              :width="{ width: '800px' }"
+              :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0.1)', boxShadow: 'none' }"
+              centered
+              @ok="ZKModalVisible = false"
+            >
+              <template #footer>
+                <a-button key="verify" type="primary" @click="verifyZKProof">验证</a-button>
+                <a-button key="close" @click="ZKModalVisible = false">关闭</a-button>
+              </template>
+              <a-card>
+                <pre style="max-height: 500px; overflow-y: auto; white-space: pre-wrap;">
+                  {{ JSON.stringify(zkProof, null, 2) }}
+                </pre>
+              </a-card>
+            </a-modal>
+
+            <a-modal
+              v-model:open="KeyVerificationModalVisible"
+              :title="'提交单元 ' + keyVerificationData.slotHash + ' 合成证书'"
+              :width="800"
+              :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0.1)', boxShadow: 'none' }"
+              centered
+              @ok="KeyVerificationModalVisible = false"
+            >
+              <template #footer>
+                <a-button key="close" @click="KeyVerificationModalVisible = false">关闭</a-button>
+              </template>
+              <a-list bordered size="large">
+                <a-list-item>
+                  <a-row gutter="{16}" style="width: 100%">
+                    <a-col :span="24">
+                      <strong>提交单元: </strong>
+                      <a-tag color="purple" class="break-tag">{{ keyVerificationData.slotHash }}</a-tag>
+                    </a-col>
+                  </a-row>
+                </a-list-item>
+                <a-list-item>
+                  <a-row gutter="{16}" style="width: 100%">
+                    <a-col :span="24">
+                      <strong>节点ID: </strong>
+                      <a-tag color="orange">{{ keyVerificationData.nodeID }}</a-tag>
+                    </a-col>
+                  </a-row>
+                </a-list-item>
+                <a-list-item>
+                  <a-row gutter="{16}" style="width: 100%">
+                    <a-col :span="24">
+                      <strong>数据哈希: </strong>
+                      <a-tag color="cyan" class="break-tag">{{ keyVerificationData.dataHash }}</a-tag>
+                    </a-col>
+                  </a-row>
+                </a-list-item>
+                <a-list-item>
+                  <a-row gutter="{16}" style="width: 100%">
+                    <a-col :span="24">
+                      <strong>节点公钥: </strong>
+                      <a-tag color="blue" class="break-tag">{{ keyVerificationData.publicKey }}</a-tag>
+                    </a-col>
+                  </a-row>
+                </a-list-item>
+                <a-list-item>
+                  <a-row gutter="{16}" style="width: 100%">
+                    <a-col :span="24">
+                      <strong>节点签名: </strong>
+                      <a-tag color="green" class="break-tag">{{ keyVerificationData.signature }}</a-tag>
+                    </a-col>
+                  </a-row>
+                </a-list-item>
+                <a-list-item>
+                  <a-row gutter="{16}" style="width: 100%">
+                    <a-col :span="24">
+                      <strong>CA证书: </strong>
+                      <a-textarea
+                      :value="keyVerificationData.ca"
+                      readonly
+                      :rows="4"
+                    />
+                    </a-col>
+                  </a-row>
+                </a-list-item>
+              </a-list>
+            </a-modal>
           </a-tab-pane>
         </a-tabs>
       </a-card>
@@ -680,6 +679,7 @@
   const ZKModalVisible = ref<boolean>(false);
   const zkProof = ref<any>(null);
   const KeyVerificationModalVisible = ref<boolean>(false);
+  const proofChartRef = ref<HTMLElement | null>(null);
   const keyVerificationData = ref({
     slotHash: '',
     dataHash: '',
@@ -744,7 +744,10 @@
     if (!is_err) {
       FinalizedSlotModalVisable.value = true;
       nextTick(() => {
-        const dom = document.getElementById('proof');
+        const dom = proofChartRef.value;
+        if (!dom) {
+          return;
+        }
         if (echarts.getInstanceByDom(dom)) {
           echarts.dispose(dom); // 销毁已有实例
         }
