@@ -88,10 +88,11 @@
     if (props.optionConfig) {
       Object.assign(option, cloneDeep(props.optionConfig));
     }
+
     let seriesData: any = [];
     let xAxisData: any = [];
+
     if (props.dataType === 'origVal') {
-      // ------原始数据------
       seriesData = cloneDeep(props.chartData);
     } else {
       // ------组装数据------
@@ -101,14 +102,40 @@
       });
       option.xAxis.data = xAxisData;
     }
-    // option-series配置
-    if (props.seriesConfig) {
-      Object.assign(option.series[0], cloneDeep(props.seriesConfig));
+
+    const originalSeries = option.series[0];
+    if (props.seriesConfig?.barMinHeight > 0 && props.dataType !== 'origVal') {
+      const { barMinHeight, ...restConfig } = props.seriesConfig;
+
+      const nonZeroData = props.chartData.map((item) => ((Number(item.value) || 0) === 0 ? null : item.value));
+      const zeroData = props.chartData.map((item) => ((Number(item.value) || 0) === 0 ? 0 : null));
+
+      const nonZeroSeries = {
+        ...cloneDeep(originalSeries),
+        ...cloneDeep(restConfig),
+        barMinHeight,
+        data: nonZeroData,
+        stack: 'bar',
+      };
+      const zeroSeries = {
+        ...cloneDeep(originalSeries),
+        ...cloneDeep(restConfig),
+        barMinHeight: 0,
+        data: zeroData,
+        stack: 'bar',
+      };
+
+      option.series = [nonZeroSeries, zeroSeries];
+    } else {
+      if (props.seriesConfig) {
+        Object.assign(option.series[0], cloneDeep(props.seriesConfig));
+      }
+      option.series[0] = {
+        ...option.series[0],
+        data: seriesData,
+      };
     }
-    option.series[0] = {
-      ...option.series[0],
-      data: seriesData,
-    };
+
     try {
       setOptions(option);
     } catch (error) {
