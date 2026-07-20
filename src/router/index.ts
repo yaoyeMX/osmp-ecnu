@@ -14,9 +14,19 @@ const getRouteNames = (array: any[]) =>
   });
 getRouteNames(basicRoutes);
 
+function getRouterBase() {
+  if (qiankunWindow.__POWERED_BY_QIANKUN__) return '';
+  const publicPath = import.meta.env.VITE_PUBLIC_PATH || '/';
+  try {
+    return new URL(publicPath, window.location.origin).pathname;
+  } catch {
+    return publicPath;
+  }
+}
+
 // app router
 export const router = createRouter({
-  history: createWebHistory(qiankunWindow.__POWERED_BY_QIANKUN__ ? '' : import.meta.env.VITE_PUBLIC_PATH),
+  history: createWebHistory(getRouterBase()),
   routes: basicRoutes as unknown as RouteRecordRaw[],
   strict: true,
   scrollBehavior: () => ({ left: 0, top: 0 }),

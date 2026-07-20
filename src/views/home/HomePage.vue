@@ -40,7 +40,7 @@
   };
 
   const goRoute = (type: string) => {
-    router.replace({ path: routeMap[type] || `/demo/${type}` });
+    router.push({ path: routeMap[type] || `/demo/${type}` });
   };
 
   const userInfo = computed(() => userStore.getUserInfo);

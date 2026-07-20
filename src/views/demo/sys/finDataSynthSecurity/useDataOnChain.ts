@@ -1,10 +1,10 @@
 /*
  * @Author: lyt
  * @Date: 2024-12-12 10:42:05
- * @LastEditTime: 2024-12-12 12:30:11
+ * @LastEditTime: 2025-07-11 17:02:09
  * @LastEditors: lyt
  * @Description: lyt
- * @FilePath: /osmp-demo/jeecgboot-vue3/src/views/demo/sys/finDataSynthSecurity/useDataOnChain.ts
+ * @FilePath: /osmp-ecnu/src/views/demo/sys/finDataSynthSecurity/useDataOnChain.ts
  *
  */
 import { onMounted, ref } from 'vue';
@@ -59,6 +59,9 @@ export const useDataOnChain = () => {
         right: '10%',
       },
     },
+    seriesConfig: {
+      barMinHeight: 10,
+    },
   });
   const nodeSynTask = ref<ChartInfo>({
     chartConfig: {
@@ -73,6 +76,9 @@ export const useDataOnChain = () => {
         left: '10%',
         right: '10%',
       },
+    },
+    seriesConfig: {
+      barMinHeight: 10,
     },
   });
 
@@ -95,9 +101,10 @@ export const useDataOnChain = () => {
       // 图表全局配置
       legend: {
         show: true, // 显示图例
-        orient: 'vertical', // 图例排列方向（可选：'horizontal' 或 'vertical'）
-        left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
-        top: 'center', // 图例垂直位置
+        orient: 'horizontal', // 图例排列方向（可选：'horizontal' 或 'vertical'）
+        // left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
+        // top: 'center', // 图例垂直位置
+        // left: 'left',
         textStyle: {
           fontSize: 12, // 图例字体大小
           color: '#333', // 图例字体颜色
@@ -130,9 +137,9 @@ export const useDataOnChain = () => {
       // 图表全局配置
       legend: {
         show: true, // 显示图例
-        orient: 'vertical', // 图例排列方向（可选：'horizontal' 或 'vertical'）
-        left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
-        top: 'center', // 图例垂直位置
+        orient: 'horizontal', // 图例排列方向（可选：'horizontal' 或 'vertical'）
+        // left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
+        // top: 'center', // 图例垂直位置
         textStyle: {
           fontSize: 12, // 图例字体大小
           color: '#333', // 图例字体颜色
@@ -164,9 +171,9 @@ export const useDataOnChain = () => {
       // 图表全局配置
       legend: {
         show: true, // 显示图例
-        orient: 'vertical', // 图例排列方向（可选：'horizontal' 或 'vertical'）
-        left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
-        top: 'center', // 图例垂直位置
+        orient: 'horizontal', // 图例排列方向（可选：'horizontal' 或 'vertical'）
+        // left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
+        // top: 'center', // 图例垂直位置
         textStyle: {
           fontSize: 12, // 图例字体大小
           color: '#333', // 图例字体颜色
@@ -198,9 +205,9 @@ export const useDataOnChain = () => {
       // 图表全局配置
       legend: {
         show: true, // 显示图例
-        orient: 'vertical', // 图例排列方向（可选：'horizontal' 或 'vertical'）
-        left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
-        top: 'center', // 图例垂直位置
+        orient: 'horizontal', // 图例排列方向（可选：'horizontal' 或 'vertical'）
+        // left: 'left', // 图例位置，可选值有 'left', 'right', 'center'
+        // top: 'center', // 图例垂直位置
         textStyle: {
           fontSize: 12, // 图例字体大小
           color: '#333', // 图例字体颜色

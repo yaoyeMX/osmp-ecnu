@@ -10,6 +10,7 @@ export const EcnuQianKunRoute: AppRouteRecordRaw = {
   children: [
     {
       path: 'home',
+      alias: '/home',
       name: 'FinDataSynthSecurity-Home',
       component: () => import('/@/views/home/HomePage.vue'),
       meta: {
@@ -18,6 +19,7 @@ export const EcnuQianKunRoute: AppRouteRecordRaw = {
     },
     {
       path: 'dataSynthMonitor',
+      alias: '/dataSynthMonitor',
       name: 'FinDataSynthSecurity-DataSynthMonitor',
       component: () => import('/@/views/demo/sys/finDataSynthSecurity/DataSynthMonitor.vue'),
       meta: {
@@ -26,6 +28,7 @@ export const EcnuQianKunRoute: AppRouteRecordRaw = {
     },
     {
       path: 'dataSynthTask',
+      alias: '/dataSynthTask',
       name: 'FinDataSynthSecurity-DataSynthTask',
       component: () => import('/@/views/demo/sys/finDataSynthSecurity/DataSynthTask.vue'),
       meta: {
@@ -34,6 +37,7 @@ export const EcnuQianKunRoute: AppRouteRecordRaw = {
     },
     {
       path: 'blockChainMonitor',
+      alias: '/blockChainMonitor',
       name: 'FinDataSynthSecurity-BlockChainMonitor',
       component: () => import('/@/views/demo/sys/finDataSynthSecurity/BlockChainMonitor.vue'),
       meta: {
@@ -42,6 +46,7 @@ export const EcnuQianKunRoute: AppRouteRecordRaw = {
     },
     {
       path: 'evidencePreserve',
+      alias: '/evidencePreserve',
       name: 'FinDataSynthSecurity-EvidencePreserve',
       component: () => import('/@/views/demo/sys/finDataSynthSecurity/EvidencePreserve.vue'),
       meta: {

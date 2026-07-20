@@ -15,8 +15,10 @@ import { setupI18n } from '/@/locales/setupI18n';
 import { registerGlobComp } from '/@/components/registerGlobComp';
 import { renderWithQiankun, qiankunWindow } from 'vite-plugin-qiankun/dist/helper';
 import { useUserStore } from '/@/store/modules/user';
+import { setupWujieRouter } from '/@/hooks/system/useWujieRouter';
 
 let app: VueApp;
+const isWujieEnabled = import.meta.env.VITE_GLOB_APP_OPEN_WUJIE === 'true';
 
 function render(props: any) {
   try {
@@ -32,6 +34,9 @@ function render(props: any) {
     registerGlobComp(app);
     setupRouter(app);
     setupRouterGuard(router);
+    if (isWujieEnabled) {
+      setupWujieRouter();
+    }
     setupGlobDirectives(app);
     setupI18n(app)
       .then(() => {
