@@ -34,7 +34,7 @@
           </a-col>
         </a-row>
 
-        <!-- 第二行：合成数量（占一行）+ 可信证明（右对齐） -->
+        <!-- 第二行：合成数量和任务名称 -->
         <a-row :gutter="16" align="middle">
           <a-col :span="6">
             <a-form-item label="合成数量（单位：条）">
@@ -44,11 +44,6 @@
           <a-col :span="6">
             <a-form-item label="合成任务名称">
               <a-input v-model:value="newTask.taskName" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="需要可信证明">
-              <a-switch v-model:checked="newTask.trustedProof" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -195,7 +190,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { BasicTable } from '/@/components/Table';
 import { useSearchTable } from '../../table/components/useSearchTable';
 import { createTaskApi, downLoadCollectApi, getSynthDataApi, uploadTaskApi } from '/@/api/demo/finDataSynthSecurityApi';
@@ -236,7 +231,6 @@ const newTask = ref({
   model: '', // 选择的模型
   dataset: '', // 选择的数据集
   synthesisAmount: 1, // 合成数量（条）
-  trustedProof: false,
 });
 
 // 可用模型映射
@@ -280,10 +274,6 @@ const updateDatasets = () => {
 // 提交任务
 const createTask = async () => {
   console.log('创建任务:', newTask.value);
-  if (newTask.value.trustedProof == true) {
-    message.info('可信证明，该功能未实现');
-    return;
-  }
   let my_model=newTask.value.model;
   // 临时替换
   if (newTask.value.model == 'TRADINGACCOUT') {
@@ -298,16 +288,16 @@ const createTask = async () => {
       dataset: newTask.value.dataset,
     },
     size: newTask.value.synthesisAmount,
-    isReliable: !newTask.value.trustedProof,
+    isReliable: true,
   });
   if (res.status == 'OK') {
     message.success('创建成功');
     newTask.value = {
+      taskName: 'default',
       dataType: '', // 数据类型
       model: '', // 选择的模型
       dataset: '', // 选择的数据集
       synthesisAmount: 1, // 合成数量（条）
-      trustedProof: false,
     };
     setTimeout(() => reload(), 5000);
   } else {
@@ -315,10 +305,16 @@ const createTask = async () => {
   }
 };
 
+let reloadTimer: ReturnType<typeof setInterval> | undefined;
+
 onMounted(() => {
-  setInterval(function () {
+  reloadTimer = setInterval(function () {
     reload();
   }, 10000);
+});
+
+onBeforeUnmount(() => {
+  if (reloadTimer) clearInterval(reloadTimer);
 });
 
 let dataItem = ref({

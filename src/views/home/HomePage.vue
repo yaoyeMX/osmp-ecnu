@@ -1,56 +1,75 @@
 <template>
   <PageWrapper>
-    <div class="toolbar">
-      <a-button v-for="btn in buttons" :key="btn.type" @click="goRoute(btn.type)">
-        {{ btn.label }}
+    <div class="menu-bar">
+      <a-menu class="page-menu" mode="horizontal" :selectedKeys="[activeMenu]" @click="handleMenuClick">
+        <a-menu-item v-for="item in menuItems" :key="item.key">
+          {{ item.label }}
+        </a-menu-item>
+      </a-menu>
+      <a-button class="refresh-button" @click="refreshCurrentPage">
+        <template #icon><ReloadOutlined /></template>
+        刷新当前页面
       </a-button>
     </div>
-    <a-card title="一站式平台当前登录用户信息">
-      <p>用户账号：{{ userInfo.username ?? '--' }}</p>
-      <p>用户姓名：{{ userInfo.realname ?? '--' }}</p>
-      <p>头像：<a-avatar size="large" :src="userInfo.avatar ?? '--'" /></p>
-      <p>性别：{{ userInfo.sex_dictText ?? '--' }}</p>
-      <p>邮箱：{{ userInfo.email ?? '--' }}</p>
-      <p>手机号：{{ userInfo.phone ?? '--' }}</p>
-    </a-card>
+
+    <component :is="activeComponent" :key="`${selectedMenu}-${refreshKey}`" />
   </PageWrapper>
 </template>
 
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
-  import { useRouter } from 'vue-router';
-  import { useUserStore } from '/@/store/modules/user';
-  import { computed } from 'vue';
+  import { ReloadOutlined } from '@ant-design/icons-vue';
+  import { computed, ref } from 'vue';
+  import DataSynthMonitor from '/@/views/demo/sys/finDataSynthSecurity/DataSynthMonitor.vue';
+  import DataSynthTask from '/@/views/demo/sys/finDataSynthSecurity/DataSynthTask.vue';
+  import BlockChainMonitor from '/@/views/demo/sys/finDataSynthSecurity/BlockChainMonitor.vue';
+  import EvidencePreserve from '/@/views/demo/sys/finDataSynthSecurity/EvidencePreserve.vue';
 
-  const router = useRouter();
-  const userStore = useUserStore();
+  type MenuKey = 'dataSynthMonitor' | 'dataSynthTask' | 'blockChainMonitor' | 'evidencePreserve';
 
-  const buttons = [
-    { type: 'dataSynthMonitor', label: '页面1.1' },
-    { type: 'dataSynthTask', label: '页面1.2' },
-    { type: 'blockChainMonitor', label: '页面2.1' },
-    { type: 'evidencePreserve', label: '页面2.2' },
+  const selectedMenu = ref<MenuKey>('dataSynthMonitor');
+  const refreshKey = ref(0);
+
+  const menuItems: Array<{ key: MenuKey; label: string }> = [
+    { key: 'dataSynthMonitor', label: '数据合成监控' },
+    { key: 'dataSynthTask', label: '数据合成任务' },
+    { key: 'blockChainMonitor', label: '区块链监控' },
+    { key: 'evidencePreserve', label: '存证溯源' },
   ];
 
-  const routeMap: Record<string, string> = {
-    dataSynthMonitor: '/finDataSynthSecurity/dataSynthMonitor',
-    dataSynthTask: '/finDataSynthSecurity/dataSynthTask',
-    blockChainMonitor: '/finDataSynthSecurity/blockChainMonitor',
-    evidencePreserve: '/finDataSynthSecurity/evidencePreserve',
+  const componentMap = {
+    dataSynthMonitor: DataSynthMonitor,
+    dataSynthTask: DataSynthTask,
+    blockChainMonitor: BlockChainMonitor,
+    evidencePreserve: EvidencePreserve,
   };
 
-  const goRoute = (type: string) => {
-    router.push({ path: routeMap[type] || `/demo/${type}` });
+  const activeMenu = computed(() => selectedMenu.value);
+  const activeComponent = computed(() => componentMap[selectedMenu.value]);
+
+  const handleMenuClick = ({ key }: { key: string | number }) => {
+    const menuKey = String(key);
+    if (menuKey in componentMap) selectedMenu.value = menuKey as MenuKey;
   };
 
-  const userInfo = computed(() => userStore.getUserInfo);
+  const refreshCurrentPage = () => {
+    refreshKey.value += 1;
+  };
 </script>
 
 <style lang="scss" scoped>
-  .toolbar {
+  .menu-bar {
     display: flex;
-    flex-direction: row;
-    column-gap: 10px;
+    align-items: center;
     margin-bottom: 20px;
+    background: #fff;
+  }
+
+  .page-menu {
+    flex: 1;
+  }
+
+  .refresh-button {
+    margin: 0 16px;
   }
 </style>

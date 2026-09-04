@@ -39,7 +39,7 @@ import {
   // Result,
   Empty,
   Avatar,
-  // Menu,
+  Menu,
   // Breadcrumb,
   Form,
   Input,
@@ -109,7 +109,7 @@ export function registerGlobComp(app: App) {
     // .use(Result)
     .use(Empty)
     .use(Avatar)
-    // .use(Menu)
+    .use(Menu)
     .use(Tabs)
     .use(Form)
     .use(Input)

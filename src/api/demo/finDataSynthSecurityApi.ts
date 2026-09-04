@@ -181,11 +181,14 @@ export const getFDSynthColumnExceptionApi = async () => {
 //==========================这些是真实的接口====================================================
 
 // 数据合成安全 - 查询接口
-export const getQueryDataApi = async (queryData) => {
-  const res = await defHttp.get<any>({
-    url: Api.FINDATASYNTHSECURITY_ORACLE_QUERY,
-    params: queryData
-  })
+export const getQueryDataApi = async (queryData, options?: RequestOptions) => {
+  const res = await defHttp.get<any>(
+    {
+      url: Api.FINDATASYNTHSECURITY_ORACLE_QUERY,
+      params: queryData,
+    },
+    options,
+  );
   console.log('数据合成安全-获取查询数据-接口返回数据', res);
   return res;
 };
@@ -287,4 +290,4 @@ export const getBlockInfoApi: () => Promise<BlockInfo> = async () => {
   const res = await defHttp.get({ url: Api.CERTAIN_BLOCK_DATA });
   console.log('数据合成安全-获取区块信息-接口返回数据', res);
   return res;
-} 
+}

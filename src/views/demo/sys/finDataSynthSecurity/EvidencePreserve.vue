@@ -1040,17 +1040,50 @@
   });
 
   const onQuery = async () => {
+    const currentForm = activeKey1.value == '1' ? TaskSearchForm : EpochSearchForm;
+    const queryValue =
+      currentForm.queryType === 'transactionHash'
+        ? currentForm.transactionHash
+        : activeKey1.value == '1'
+          ? TaskSearchForm.taskId
+          : EpochSearchForm.epochId;
+
+    if (!String(queryValue ?? '').trim()) {
+      message.warning(currentForm.queryType === 'transactionHash' ? '请输入交易哈希' : '请输入查询标识');
+      return;
+    }
+
+    const handleQueryFailure = () => {
+      infoType.value = '';
+      message.warning(
+        currentForm.queryType === 'transactionHash'
+          ? '未查询到对应的存证信息，请检查交易哈希是否正确'
+          : '未查询到对应的存证信息',
+      );
+    };
+
+    const fetchQueryData = async (queryData) => {
+      try {
+        return await getQueryDataApi(queryData, { errorMessageMode: 'none' });
+      } catch {
+        handleQueryFailure();
+        return null;
+      }
+    };
+
     //这里获取查询信息
     if (activeKey1.value == '1') {
       const res = await (TaskSearchForm.queryType == 'taskId'
-        ? getQueryDataApi({
+        ? fetchQueryData({
             query: 'EvidencePreserveTaskIDQuery',
             taskID: TaskSearchForm.taskId,
           })
-        : getQueryDataApi({
+        : fetchQueryData({
             query: 'EvidencePreserveTaskTxQuery',
             txHash: TaskSearchForm.transactionHash,
           }));
+
+      if (!res) return;
 
       // 更新信息
       // const res = await getQueryDataApi({
@@ -1136,18 +1169,20 @@
         infoType.value = 'task';
         console.log(schedules);
       } else {
-        message.error('查找失败');
+        handleQueryFailure();
       }
     } else if (activeKey1.value == '2') {
       const res = await (EpochSearchForm.queryType == 'epochId'
-        ? getQueryDataApi({
+        ? fetchQueryData({
             query: 'EvidencePreserveEpochIDQuery',
             epochID: EpochSearchForm.epochId,
           })
-        : getQueryDataApi({
+        : fetchQueryData({
             query: 'EvidencePreserveEpochTxQuery',
             txHash: EpochSearchForm.transactionHash,
           }));
+
+      if (!res) return;
       //更新信息
       console.log(res.status);
       if (res.status == 'OK') {
@@ -1261,7 +1296,7 @@
         ];
         infoType.value = 'epoch';
       } else {
-        message.error('查找失败');
+        handleQueryFailure();
       }
     }
   };

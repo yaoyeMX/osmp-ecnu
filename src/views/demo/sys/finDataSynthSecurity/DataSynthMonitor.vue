@@ -165,10 +165,6 @@
           <!-- </div> -->
         </template>
 
-        <template #action="{ record }">
-          <a-button type="link" @click="statusClick(record)">合成详情</a-button>
-          <a-button type="link" @click="dataClick(record)">状态详情</a-button>
-        </template>
         <!-- <template #toolbar>
             <a-button type="primary" preIcon="ant-design:plus-outlined" @click="addClick"> 新增</a-button>
             <a-dropdown>
@@ -195,7 +191,6 @@
   import ECNU_ICON from '/@/assets/ecnu.png';
   import { BarChart, PieChart } from '/@/components/Charts';
   import { BasicTable } from '/@/components/Table';
-  import { useBasicForm } from '/@/views/demo/table/components/useBasicForm';
   import { useDataOnChain } from './useDataOnChain';
   import { onMounted, ref, computed, onBeforeUnmount } from 'vue';
   import { MonitorOutlined, ShopOutlined, DatabaseOutlined, TagOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons-vue';
@@ -204,7 +199,6 @@
   import { calculateDataMapSize } from '/@/utils/value/calDataSize';
 
   const { nodeSynData, nodeSynTask, nodeStorage, nodeStatusData, taskData, datasetData } = useDataOnChain();
-  const { statusClick, dataClick } = useBasicForm();
   const activeKey1 = ref('1');
   const activeKey2 = ref('1');
   const activeKey3 = ref('1');
@@ -319,15 +313,6 @@
         customRender: 'storage',
       },
       width: 100,
-    },
-    {
-      title: '操作',
-      dataIndex: 'action',
-      width: 100,
-      slots: {
-        customRender: 'action',
-      },
-      fixed: 'right',
     },
   ];
 

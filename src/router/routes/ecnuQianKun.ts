@@ -3,7 +3,7 @@ import type { AppRouteRecordRaw } from '/@/router/types';
 export const EcnuQianKunRoute: AppRouteRecordRaw = {
   path: '/finDataSynthSecurity',
   name: 'FinDataSynthSecurity',
-  redirect: '/finDataSynthSecurity/home', // 重定向, 访问 /finDataSynthSecurity 时重定向到 /finDataSynthSecurity/home
+  redirect: '/finDataSynthSecurity/home',
   meta: {
     title: '金融数据合成',
   },
